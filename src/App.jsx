@@ -6,7 +6,6 @@ const api_key = import.meta.env.VITE_API_KEY;
 
 const CountriesDisplay = ({ filter, countries, }) => {
   const [weather, setWeather] = useState(null);
-  console.log(api_key);
   const filteredCountries = countries.filter((country) => country.name.common.toLowerCase().includes(filter));
   useEffect(() => {
     if (filteredCountries.length === 1) {
@@ -45,18 +44,21 @@ const CountriesDisplay = ({ filter, countries, }) => {
       }
     </div >);
   }
-  else if (filteredCountries.length < 10) {
-    return filteredCountries.map((country) => {
-      return (<div key={country.name.common}>
-        {country.name.common}
-      </div>);
-    }
+  else if (filteredCountries.length > 0 && filteredCountries.length < 10) {
+    return (
+      <div>
+        <div>Too many matches, please specify further</div>
+        {filteredCountries.map((country) => (
+          <div key={country.name.common}>
+            {country.name.common}
+          </div>
+        ))}
+      </div>
     );
   }
   else {
-    return <div>Too many matches, specify another filter</div>
+    return <div>Too many matches, specify another filter</div>;
   }
-
 }
 
 const App = () => {
